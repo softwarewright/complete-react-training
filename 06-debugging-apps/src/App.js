@@ -1,5 +1,6 @@
 import React from 'react';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import './App.css';
 /** @jsx jsx */
 import { css, jsx} from "@emotion/core";
@@ -53,28 +54,6 @@ class App extends React.Component {
   }
 
   render() {
-    // const style = {
-    //   backgroundColor: 'green',
-    //   font: 'inherit',
-    //   border: '1px solid blue',
-    //   padding: '.5rem',
-    //   cursor: 'pointer',
-    //   ':hover': {
-    //     backgroundColor: 'lightgreen'
-    //   }
-    // };
-
-    // const style = css`
-    //   background-color: green;
-    //   font: inherit;
-    //   border: 1px solid blue;
-    //   padding: .5rem;
-    //   cursor: pointer;
-    //   :hover {
-    //     background-color: lightgreen;
-    //   }
-    // `
-
     let people = null;
 
     if(this.state.showPeople) {
@@ -93,12 +72,18 @@ class App extends React.Component {
       classes.push('bold');
     }
 
+    if(Math.random() > .5) throw new Error('Something when wrong');
+
     return (
+      <ErrorBoundary>
+
       <div className="App">
         <h1 className={classes.join(" ")}>Hello React App</h1>
         <StyledButton show={this.state.showPeople} onClick={this.togglePeopleHandler}>Switch Name</StyledButton>
         <div> { people } </div>
       </div>
+      </ErrorBoundary>
+
     );
   }
 }
