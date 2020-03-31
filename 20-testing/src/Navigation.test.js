@@ -6,8 +6,16 @@ import Navigation from './Navigation';
 configure({ adapter: new Adapter()});
 
 describe('<NavigationItems />', () => {
+    let wrapper;
+    beforeEach(() => {
+        wrapper = shallow(<Navigation />);
+    })
+
+    it("should match snapshot", () => {
+        expect(wrapper).toMatchSnapshot();
+    })
+
     it("should render log in when unauthenticated", () => {
-        const wrapper = shallow(<Navigation authenticated={false}/>);
 
         const navItems = wrapper.find('li');
         expect(navItems).toHaveLength(1)
@@ -15,7 +23,7 @@ describe('<NavigationItems />', () => {
     })
 
     it("should render Welcome when authenticated", () => {
-        const wrapper = shallow(<Navigation authenticated={true}/>);
+        wrapper.setProps({ authenticated: true })
 
         const navItems = wrapper.find('li');
         expect(navItems).toHaveLength(1)
