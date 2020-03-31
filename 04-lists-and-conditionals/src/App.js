@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Person from './Person/Person';
 import './App.css';
 /** @jsx jsx */
@@ -17,42 +17,43 @@ const StyledButton = styled.button`
 `
 
 
-class App extends React.Component {
+function App(props) {
 
-  state = {
+  const [state,setState] = useState({
     people: [
       { id: 'a', name: "Darrius", age: 25 },
       { id: 'b', name: "Keionne", age: 25},
       { id: 'c', name: "James", age: 67 }
     ],
     showPeople: false
-  }
+  })
 
-  nameChangedHandler = (event, id) => {
-    const index = this.state.people.findIndex(p => p.id === id);
+  const nameChangedHandler = (id, event) => {
+    console.log(event, id);
+    const index = state.people.findIndex(p => p.id === id);
     
     const person = {
-      ...this.state.people[index],
+      ...state.people[index],
       name: event.target.value
     };
 
-    const people = [...this.state.people];
+    const people = [...state.people];
     people[index] = person;
 
-    this.setState({ people })
+    setState({ ...state,people })
   }
 
-  togglePeopleHandler = () => {
-    this.setState({
-      showPeople: !this.state.showPeople
+  const togglePeopleHandler = () => {
+    setState({
+      ...state,
+      showPeople: !state.showPeople
     })
   }
 
-  deletePerson(id) {
-    this.setState({ people: this.state.people.filter(p => p.id !== id) })
+  const deletePerson = (id) => {
+    setState({ people: state.people.filter(p => p.id !== id) })
   }
 
-  render() {
     // const style = {
     //   backgroundColor: 'green',
     //   font: 'inherit',
@@ -77,30 +78,29 @@ class App extends React.Component {
 
     let people = null;
 
-    if(this.state.showPeople) {
-      people = this.state.people
-        .map( ({ name, age, id }) => <Person changed={this.nameChangedHandler.bind(this)} click={this.deletePerson.bind(this, id)} key={id} name={name} age={age} />)
+    if(state.showPeople) {
+      people = state.people
+        .map( ({ name, age, id }) => <Person changed={nameChangedHandler.bind(this,id)} click={deletePerson.bind(this, id)} key={id} name={name} age={age} />)
       // style.backgroundColor = "red";
     }
 
     const classes =[];
 
-    if(this.state.people.length <= 2) {
+    if(state.people.length <= 2) {
       classes.push('red');
     }
 
-    if(this.state.people.length <= 1) {
+    if(state.people.length <= 1) {
       classes.push('bold');
     }
 
     return (
       <div className="App">
         <h1 className={classes.join(" ")}>Hello React App</h1>
-        <StyledButton show={this.state.showPeople} onClick={this.togglePeopleHandler}>Switch Name</StyledButton>
+        <StyledButton show={state.showPeople} onClick={togglePeopleHandler}>Switch Name</StyledButton>
         <div> { people } </div>
       </div>
     );
-  }
 }
 
 export default App;

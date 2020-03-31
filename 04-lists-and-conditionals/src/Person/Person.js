@@ -24,8 +24,8 @@ const Person = ({name, age, children, click, changed}) => {
     `;
 
     return (
-        <div onClick={click} css={style}>
-            <p> I'm a Person! My name is {name}. I'm {age} years old.</p>
+        <div  css={style}>
+            <p onClick={click}> I'm a Person! My name is {name}. I'm {age} years old.</p>
             <p>{children}</p>
             <input type="text" onChange={changed} value={name} />
         </div>
