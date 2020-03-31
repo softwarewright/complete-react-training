@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import * as actionTypes from '../store/actions';
+import * as actionCreators from '../store/actions';
+
 
 const Counter = props => {
     // const [counterState, setCounterState] = useState({
@@ -32,12 +33,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT}),
-    onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT}),
-    onAddFiveCounter: () => dispatch({ type: actionTypes.ADD, payload: 5}),
-    onSubFiveCounter: () => dispatch({ type: actionTypes.SUBTRACT, payload: 5}),
-    onStoreResult: result => dispatch({ type: actionTypes.STORE_RESULT, payload: result }),
-    onRemoveResult: index => dispatch({ type: actionTypes.REMOVE_RESULT, payload: index})
+    onIncrementCounter: () => dispatch(actionCreators.increment()),
+    onDecrementCounter: () => dispatch(actionCreators.decrement()),
+    onAddFiveCounter: () => dispatch(actionCreators.add(5)),
+    onSubFiveCounter: () => dispatch(actionCreators.subtract(5)),
+    onStoreResult: result => dispatch(actionCreators.storeResult(result)),
+    onRemoveResult: index => dispatch(actionCreators.removeResult(index))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
